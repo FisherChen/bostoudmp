@@ -2,11 +2,9 @@ package com.fisher.bostoudmp.test;
 
 import com.fisher.bostoudmp.core.bean.BosImageBatchInfo;
 import com.fisher.bostoudmp.core.dao.BosAccessBDDao;
-import com.fisher.bostoudmp.core.dao.BosAccessDBDaoImpl;
 import com.fisher.bostoudmp.core.dao.BosAccessDBFactory;
 import com.fisher.bostoudmp.core.exception.BosRowIDException;
 import org.apache.log4j.Logger;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public class DBMangerTest {
 
     @Test
     public void getBosImageInfo() {
-        List<BosImageBatchInfo> blist =bosAccessBDDao.getBosImageInfoList(10);
+        List<BosImageBatchInfo> blist =bosAccessBDDao.getFileListForUpload(10);
         for (BosImageBatchInfo b : blist) {
             logger.debug(b.getImagePath());
             logger.debug(b.getOrgCode());
@@ -36,19 +34,19 @@ public class DBMangerTest {
 
     @Test
     public void prePareUpLoadFile() {
-        List<BosImageBatchInfo> blist =bosAccessBDDao.getBosImageInfoList(20);
+        List<BosImageBatchInfo> blist =bosAccessBDDao.getFileListForUpload(20);
         bosAccessBDDao.prepareUpLoadFile(blist);
     }
 
     @Test
     public void updateBosToUdmp() throws BosRowIDException {
-        List<BosImageBatchInfo> blist =bosAccessBDDao.getBosImageInfoList(20);
+        List<BosImageBatchInfo> blist =bosAccessBDDao.getFileListForUpload(20);
         for (BosImageBatchInfo b : blist) {
             if (b.getRowID() == null) {
                 if (b.getImagePath().equalsIgnoreCase("")) {
-                    bosAccessBDDao.updateBosImageToUdmp(b.getRowID(), 5, b.getRowID());
+                    bosAccessBDDao.afterUploadedFile(b.getRowID(), 5, b.getRowID());
                 }else {
-                    bosAccessBDDao.updateBosImageToUdmp(b.getRowID(), 2, b.getRowID());
+                    bosAccessBDDao.afterUploadedFile(b.getRowID(), 2, b.getRowID());
                 }
             }
         }

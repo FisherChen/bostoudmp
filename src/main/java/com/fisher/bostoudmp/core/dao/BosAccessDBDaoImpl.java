@@ -37,10 +37,10 @@ public class BosAccessDBDaoImpl implements BosAccessBDDao {
             "(bos_rowid,flag,created_date)values(?,2,sysdate)";
 
     private static final String UPDATE_BOS_IMAGE_TO_UDMP_SQL = "update fisher.bos_sdb_image_to_udmp set flag=?" +
-            ",docId=?,updated_date=sysdate where bos_rowID=?";
+        ",docId=?,updated_date=sysdate where bos_rowID=?";
 
 
-    public List<BosImageBatchInfo> getBosImageInfoList(int size) {
+    public List<BosImageBatchInfo> getFileListForUpload(int size) {
         List<BosImageBatchInfo> blist = new ArrayList<BosImageBatchInfo>();
         Connection connection = DBManager.getConnection();
         PreparedStatement pst = null;
@@ -62,6 +62,7 @@ public class BosAccessDBDaoImpl implements BosAccessBDDao {
                 bi.setPageSize(rs.getInt("pageSize"));
                 blist.add(bi);
             }
+            rs.close();
         } catch (SQLException e) {
             logger.error("Sorry your SQL : \n " + SELECT_BOSIMAGEINFO_SQL);
             logger.error(e.getMessage());
@@ -113,7 +114,7 @@ public class BosAccessDBDaoImpl implements BosAccessBDDao {
         }
     }
 
-    public int updateBosImageToUdmp(String bosRowID, int flag, String docID) throws BosRowIDException {
+    public int afterUploadedFile(String bosRowID, int flag, String docID) throws BosRowIDException {
         int num = 0;
         if (bosRowID == null) {
             throw new BosRowIDException("bosRowID cant't  be null");

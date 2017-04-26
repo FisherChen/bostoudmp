@@ -15,7 +15,7 @@ public interface BosAccessBDDao {
      * @return 返回一个BosImageBatchInfo 的List
      */
 
-    public List<BosImageBatchInfo> getBosImageInfoList(int pageSize);
+    public List<BosImageBatchInfo> getFileListForUpload(int pageSize);
 
     /**
      * 上传的准备操作
@@ -39,5 +39,5 @@ public interface BosAccessBDDao {
      * @param flag FlagEnum中映射的标记
      * @throws BosRowIDException 抛出当批次的主键ID为空的时候
      */
-    public int updateBosImageToUdmp(String bosRowID, int flag, String docID) throws BosRowIDException;
+    public int afterUploadedFile(String bosRowID, int flag, String docID) throws BosRowIDException;
 }

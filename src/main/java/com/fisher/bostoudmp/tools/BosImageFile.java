@@ -19,6 +19,9 @@ public class BosImageFile {
     public static List<String> getImagesPaths(String filePath) {
         List<String> urllist = new ArrayList<String>();
         List<File> fileList = BosImageFile.getImageFiles(filePath);
+        if(fileList ==null){
+           return urllist;
+        }
         for (File f : fileList) {
             try {
                 urllist.add(f.getCanonicalPath());
@@ -35,9 +38,9 @@ public class BosImageFile {
         File file = new File(path);
         try {
             return (List<File>) FileUtils.listFiles(file, TrueFileFilter.INSTANCE, null);
-        }catch (IllegalArgumentException e){
+        }catch (Exception e){
            logger.error(e.getMessage());
-           //e.printStackTrace();
+           e.printStackTrace();
            return null;
         }
     }

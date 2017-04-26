@@ -28,7 +28,7 @@ public class DBManager {
             ds = BasicDataSourceFactory.createDataSource(properties);
             logger.info("DB initialized success !");
         } catch (Exception e) {
-            logger.error("Sorry db cant not connetct ..........................");
+            logger.error("Sorry db cant not connect..........................");
             logger.error(e.getMessage());
             e.printStackTrace();
         }

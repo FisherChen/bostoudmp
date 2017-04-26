@@ -1,5 +1,6 @@
 package com.fisher.bostoudmp.core.task;
 
+import com.fisher.bostoudmp.BosToUdmp;
 import com.fisher.bostoudmp.core.bean.BosImageBatchInfo;
 import com.fisher.bostoudmp.core.bean.BosToUdmpProperties;
 import com.fisher.bostoudmp.core.dao.BosAccessBDDao;
@@ -28,8 +29,13 @@ public class TaskGetBosImages implements Runnable {
         List<BosImageBatchInfo> blist = null;
         BosAccessBDDao bosAccessBDDao=BosAccessDBFactory.getBosAccessDBDao();
         int size = BosToUdmpProperties.getGetImagesSize();
-        while (true) {
-            blist =bosAccessBDDao.getBosImageInfoList(size);
+        while (BosToUdmpTools.isGoodBye()) {
+            blist =bosAccessBDDao.getFileListForUpload(size);
+            if (blist==null){
+                BosToUdmpTools.setGoodBye(false);
+                logger.info("No more images to update ,Bye!");
+                break;
+            }
             for (BosImageBatchInfo b : blist) {
                 try {
                     bosQueue.put(b);

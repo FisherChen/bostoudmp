@@ -38,7 +38,6 @@ public class BosImageFileTest {
         str2.remove(2);
         str2.add("/home/6.jpg");
         assertTrue(!BosImageFile.isSameFileList(str1,str2));
-
     }
 
 

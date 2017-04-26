@@ -26,9 +26,9 @@ public class TaskUploadImages implements Runnable {
         Thread.currentThread().setName(this.name);
         logger.info(Thread.currentThread().getName() + ": Hi ,I'm going  to update image !");
         BosAccessBDDao bosAccessBDDao= BosAccessDBFactory.getBosAccessDBDao();
-        while (true) {
+        while (BosToUdmpTools.isGoodBye()) {
             //check is err times .
-            if (isBreakable()) {
+            if (isErrorOver100()) {
                 logger.info("Now we can't update image over than 100 times . Please check logs !");
                 break;
             }
@@ -38,7 +38,7 @@ public class TaskUploadImages implements Runnable {
                 if (bosAccessBDDao.prepareUpLoadFile(bosImageBatchInfo)) {
                     try {
                         UpLoadImageService.upLoadImageToUdmp(bosImageBatchInfo);
-                        bosAccessBDDao.updateBosImageToUdmp(bosImageBatchInfo.getRowID(), bosImageBatchInfo.getFlag(), bosImageBatchInfo.getDocID());
+                        bosAccessBDDao.afterUploadedFile(bosImageBatchInfo.getRowID(), bosImageBatchInfo.getFlag(), bosImageBatchInfo.getDocID());
                     } catch (Exception e) {
                         errTimes++;
                         logger.error("Sorry img can't upload we will do next one ,until 100, now this Thread error size is :" + errTimes);
@@ -55,7 +55,7 @@ public class TaskUploadImages implements Runnable {
         }
     }
 
-    private boolean isBreakable() {
+    private boolean isErrorOver100() {
         boolean b = false;
         if (errTimes > 100) {
             b = true;
