@@ -5,6 +5,7 @@ import com.fisher.bostoudmp.core.bean.FlagEnum;
 import com.fisher.bostoudmp.tools.BosImageFile;
 import org.apache.log4j.Logger;
 
+import javax.xml.stream.FactoryConfigurationError;
 import java.io.File;
 import java.util.List;
 
@@ -28,10 +29,27 @@ public class UpLoadImageService {
         if(img ==null){
             return;
         }
-        if (img.getImagePath().equalsIgnoreCase("")) {
+        String path=img.getImagePath();
+
+        if (path==null){
             img.setFlag(FlagEnum.NO_PATH.getCode());
             return;
         }
+        File dirpath=new File(path);
+        if (dirpath==null){
+           img.setFlag(FlagEnum.NO_PATH.getCode());
+           return;
+        }
+        if (!dirpath.isDirectory()){
+            img.setFlag(FlagEnum.NO_PATH.getCode());
+            return;
+        }
+
+        if (path.equalsIgnoreCase("")) {
+            img.setFlag(FlagEnum.NO_PATH.getCode());
+            return;
+        }
+
 
         List<File> imgFileList = BosImageFile.getImageFiles(img.getImagePath());
         if (imgFileList==null){

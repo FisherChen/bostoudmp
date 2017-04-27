@@ -23,11 +23,11 @@ public class UpLaodImageSeviceTest {
             bosImageBatchInfo.setFlag(FlagEnum.READY.getCode());
             bosImageBatchInfo.setImagePath("/home/fisher/workspace/temp");
             UpLoadImageService.upLoadImageToUdmp(bosImageBatchInfo);
-           // assertEquals(FlagEnum.SUCESS_WRONG_NUM.getCode(), bosImageBatchInfo.getFlag());
+            assertEquals(FlagEnum.PATH_NO_IMAGE.getCode(), bosImageBatchInfo.getFlag());
 
             bosImageBatchInfo.setImagePath("/www/");
             UpLoadImageService.upLoadImageToUdmp(bosImageBatchInfo);
-            assertEquals(FlagEnum.PATH_NO_IMAGE.getCode(), bosImageBatchInfo.getFlag());
+            assertEquals(FlagEnum.NO_PATH.getCode(), bosImageBatchInfo.getFlag());
 
             bosImageBatchInfo.setImagePath("");
             UpLoadImageService.upLoadImageToUdmp(bosImageBatchInfo);

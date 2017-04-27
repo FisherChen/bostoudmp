@@ -1,6 +1,5 @@
 package com.fisher.bostoudmp.core.task;
 
-
 import com.fisher.bostoudmp.core.bean.BosToUdmpProperties;
 import com.fisher.bostoudmp.tools.BosToUdmpTools;
 import org.apache.log4j.Logger;
